@@ -1,7 +1,7 @@
 /node_modules
 /lib/node_modules
 /frontend/node_modules
-/frontend/build
+# /frontend/build
 /frontend/.env
 /api/node_modules
 /api/.env

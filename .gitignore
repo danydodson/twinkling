@@ -6,3 +6,4 @@
 /api/node_modules
 /api/.env
 /.vscode
+/frontend/build/*

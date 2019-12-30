@@ -110,6 +110,7 @@ const SignIn = ({ history, location, refetch }) => {
                 values={emailOrUsername}
                 onChange={handleChange}
                 placeholder="Email or Username"
+                autocomplete="username"
                 borderColor="white"
               />
             </InputContainer>
@@ -121,6 +122,7 @@ const SignIn = ({ history, location, refetch }) => {
                 values={password}
                 onChange={handleChange}
                 placeholder="Password"
+                autocomplete="current-password"
                 borderColor="white"
               />
               <A to={Routes.FORGOT_PASSWORD}>

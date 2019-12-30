@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { Mutation } from 'react-apollo';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { withRouter } from 'react-router-dom'
+import { Mutation } from 'react-apollo'
 
-import { Spacing, Container } from 'components/Layout';
-import { H1, Error } from 'components/Text';
-import { InputText, Button } from 'components/Form';
-import Head from 'components/Head';
+import { Spacing, Container } from 'components/Layout'
+import { H1, Error } from 'components/Text'
+import { InputText, Button } from 'components/Form'
+import Head from 'components/Head'
 
-import { SIGN_UP } from 'graphql/user';
+import { SIGN_UP } from 'graphql/user'
 
-import * as Routes from 'routes';
+import * as Routes from 'routes'
 
 const Root = styled(Container)`
   display: flex;
@@ -24,7 +24,7 @@ const Root = styled(Container)`
     justify-content: space-between;
     margin-top: 120px;
   }
-`;
+`
 
 const Welcome = styled.div`
   display: none;
@@ -35,11 +35,11 @@ const Welcome = styled.div`
   @media (min-width: ${p => p.theme.screen.md}) {
     display: flex;
   }
-`;
+`
 
 const Heading = styled(H1)`
   margin-bottom: ${p => p.theme.spacing.sm};
-`;
+`
 
 const Form = styled.div`
   padding: ${p => p.theme.spacing.md};
@@ -50,76 +50,76 @@ const Form = styled.div`
   @media (min-width: ${p => p.theme.screen.sm}) {
     width: 450px;
   }
-`;
+`
 
 /**
  * Sign Up page
  */
 const SignUp = ({ history, refetch }) => {
-  const [error, setError] = useState('');
+  const [error, setError] = useState('')
   const [values, setValues] = useState({
     fullName: '',
     username: '',
     email: '',
     password: '',
-  });
+  })
 
   const handleChange = e => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
-  };
+    const { name, value } = e.target
+    setValues({ ...values, [name]: value })
+  }
 
   const validate = () => {
     if (!fullName || !email || !username || !password) {
-      return 'All fields are required';
+      return 'All fields are required'
     }
 
     if (fullName.length > 50) {
-      return 'Full name no more than 50 characters';
+      return 'Full name no more than 50 characters'
     }
 
-    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     if (!emailRegex.test(String(email).toLowerCase())) {
-      return 'Enter a valid email address.';
+      return 'Enter a valid email address.'
     }
 
-    const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
+    const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/
     if (!usernameRegex.test(username)) {
-      return 'Usernames can only use letters, numbers, underscores and periods';
+      return 'Usernames can only use letters, numbers, underscores and periods'
     } else if (username.length > 20) {
-      return 'Username no more than 50 characters';
+      return 'Username no more than 50 characters'
     }
 
     if (password.length < 6) {
-      return 'Password min 6 characters';
+      return 'Password min 6 characters'
     }
 
-    return false;
-  };
+    return false
+  }
 
   const handleSubmit = (e, signup) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const error = validate();
+    const error = validate()
     if (error) {
-      setError(error);
-      return false;
+      setError(error)
+      return false
     }
 
     signup().then(async ({ data }) => {
-      localStorage.setItem('token', data.signup.token);
-      await refetch();
-      history.push(Routes.HOME);
-    });
-  };
+      localStorage.setItem('token', data.signup.token)
+      await refetch()
+      history.push(Routes.HOME)
+    })
+  }
 
   const renderErrors = apiError => {
-    let errorMessage;
+    let errorMessage
 
     if (error) {
-      errorMessage = error;
+      errorMessage = error
     } else if (apiError) {
-      errorMessage = apiError.graphQLErrors[0].message;
+      errorMessage = apiError.graphQLErrors[0].message
     }
 
     if (errorMessage) {
@@ -127,13 +127,13 @@ const SignUp = ({ history, refetch }) => {
         <Spacing bottom="sm" top="sm">
           <Error>{errorMessage}</Error>
         </Spacing>
-      );
+      )
     }
 
-    return null;
-  };
+    return null
+  }
 
-  const { fullName, email, password, username } = values;
+  const { fullName, email, password, username } = values
 
   return (
     <Mutation
@@ -187,6 +187,7 @@ const SignUp = ({ history, refetch }) => {
                   values={username}
                   onChange={handleChange}
                   placeholder="Username"
+                  autocomplete="username"
                   borderColor="white"
                 />
                 <Spacing top="xs" bottom="xs">
@@ -196,6 +197,7 @@ const SignUp = ({ history, refetch }) => {
                     values={password}
                     onChange={handleChange}
                     placeholder="Password"
+                    autocomplete="new-password"
                     borderColor="white"
                   />
                 </Spacing>
@@ -209,15 +211,15 @@ const SignUp = ({ history, refetch }) => {
               </form>
             </Form>
           </Root>
-        );
+        )
       }}
     </Mutation>
-  );
-};
+  )
+}
 
 SignUp.propTypes = {
   history: PropTypes.object.isRequired,
   refetch: PropTypes.func.isRequired,
-};
+}
 
-export default withRouter(SignUp);
+export default withRouter(SignUp)
